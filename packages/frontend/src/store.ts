@@ -92,7 +92,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	collapseRenotes: {
 		where: 'account',
-		default: true,
+		default: false,
 	},
 	rememberNoteVisibility: {
 		where: 'account',
@@ -218,7 +218,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	highlightSensitiveMedia: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	animation: {
 		where: 'device',
@@ -234,7 +234,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	showReactionsCount: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	enableQuickAddMfmFunction: {
 		where: 'device',
@@ -242,7 +242,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	loadRawImages: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	imageNewTab: {
 		where: 'device',
@@ -270,7 +270,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	showFixedPostForm: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	showFixedPostFormInChannel: {
 		where: 'device',
@@ -294,7 +294,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	instanceTicker: {
 		where: 'device',
-		default: 'remote' as 'none' | 'remote' | 'always',
+		default: 'always' as 'none' | 'remote' | 'always',
 	},
 	emojiPickerScale: {
 		where: 'device',
@@ -390,11 +390,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	notificationPosition: {
 		where: 'device',
-		default: 'rightBottom' as 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom',
+		default: 'rightTop' as 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom',
 	},
 	notificationStackAxis: {
 		where: 'device',
-		default: 'horizontal' as 'vertical' | 'horizontal',
+		default: 'vertical' as 'vertical' | 'horizontal',
 	},
 	enableCondensedLine: {
 		where: 'device',

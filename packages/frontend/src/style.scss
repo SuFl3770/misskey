@@ -6,6 +6,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+ @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
 	--MI-radius: 12px;
 	--MI-marginFull: 16px;
@@ -33,8 +40,8 @@ html {
 	accent-color: var(--MI_THEME-accent);
 	overflow: auto;
 	overflow-wrap: break-word;
-	font-family: 'Hiragino Maru Gothic Pro', "BIZ UDGothic", Roboto, HelveticaNeue, Arial, sans-serif;
-	font-size: 14px;
+	font-family: 'omyu_pretty', "BIZ UDGothic", Roboto, HelveticaNeue, Arial, sans-serif;
+	font-size: 17px;
 	line-height: 1.35;
 	text-size-adjust: 100%;
 	tab-size: 2;
