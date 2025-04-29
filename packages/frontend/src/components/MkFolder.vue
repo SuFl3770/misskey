@@ -27,10 +27,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 		<div v-if="openedAtLeastOnce" :class="[$style.body, { [$style.bgSame]: bgSame }]" :style="{ maxHeight: maxHeight ? `${maxHeight}px` : undefined, overflow: maxHeight ? `auto` : undefined }" :aria-hidden="!opened">
 			<Transition
-				:enterActiveClass="defaultStore.state.animation ? $style.transition_toggle_enterActive : ''"
-				:leaveActiveClass="defaultStore.state.animation ? $style.transition_toggle_leaveActive : ''"
-				:enterFromClass="defaultStore.state.animation ? $style.transition_toggle_enterFrom : ''"
-				:leaveToClass="defaultStore.state.animation ? $style.transition_toggle_leaveTo : ''"
+				:enterActiveClass="prefer.s.animation ? $style.transition_toggle_enterActive : ''"
+				:leaveActiveClass="prefer.s.animation ? $style.transition_toggle_leaveActive : ''"
+				:enterFromClass="prefer.s.animation ? $style.transition_toggle_enterFrom : ''"
+				:leaveToClass="prefer.s.animation ? $style.transition_toggle_leaveTo : ''"
 				@enter="enter"
 				@afterEnter="afterEnter"
 				@leave="leave"
@@ -38,7 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			>
 				<KeepAlive>
 					<div v-show="opened">
-						<MkSpacer v-if="withSpacer" :marginMin="14" :marginMax="22">
+						<MkSpacer v-if="withSpacer" :marginMin="spacerMin" :marginMax="spacerMax">
 							<slot></slot>
 						</MkSpacer>
 						<div v-else>
@@ -56,53 +56,53 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, shallowRef, ref } from 'vue';
-import { defaultStore } from '@/store.js';
+import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
+import { prefer } from '@/preferences.js';
+import { getBgColor } from '@/utility/get-bg-color.js';
 
 const props = withDefaults(defineProps<{
 	defaultOpen?: boolean;
 	maxHeight?: number | null;
 	withSpacer?: boolean;
+	spacerMin?: number;
+	spacerMax?: number;
 }>(), {
 	defaultOpen: false,
 	maxHeight: null,
 	withSpacer: true,
+	spacerMin: 14,
+	spacerMax: 22,
 });
 
-const getBgColor = (el: HTMLElement) => {
-	const style = window.getComputedStyle(el);
-	if (style.backgroundColor && !['rgba(0, 0, 0, 0)', 'rgba(0,0,0,0)', 'transparent'].includes(style.backgroundColor)) {
-		return style.backgroundColor;
-	} else {
-		return el.parentElement ? getBgColor(el.parentElement) : 'transparent';
-	}
-};
-
-const rootEl = shallowRef<HTMLElement>();
+const rootEl = useTemplateRef('rootEl');
 const bgSame = ref(false);
 const opened = ref(props.defaultOpen);
 const openedAtLeastOnce = ref(props.defaultOpen);
 
-function enter(el) {
+function enter(el: Element) {
+	if (!(el instanceof HTMLElement)) return;
 	const elementHeight = el.getBoundingClientRect().height;
-	el.style.height = 0;
+	el.style.height = '0';
 	el.offsetHeight; // reflow
-	el.style.height = Math.min(elementHeight, props.maxHeight ?? Infinity) + 'px';
+	el.style.height = `${Math.min(elementHeight, props.maxHeight ?? Infinity)}px`;
 }
 
-function afterEnter(el) {
-	el.style.height = null;
+function afterEnter(el: Element) {
+	if (!(el instanceof HTMLElement)) return;
+	el.style.height = '';
 }
 
-function leave(el) {
+function leave(el: Element) {
+	if (!(el instanceof HTMLElement)) return;
 	const elementHeight = el.getBoundingClientRect().height;
-	el.style.height = elementHeight + 'px';
+	el.style.height = `${elementHeight}px`;
 	el.offsetHeight; // reflow
-	el.style.height = 0;
+	el.style.height = '0';
 }
 
-function afterLeave(el) {
-	el.style.height = null;
+function afterLeave(el: Element) {
+	if (!(el instanceof HTMLElement)) return;
+	el.style.height = '';
 }
 
 function toggle() {
@@ -116,8 +116,8 @@ function toggle() {
 }
 
 onMounted(() => {
-	const computedStyle = getComputedStyle(document.documentElement);
-	const parentBg = getBgColor(rootEl.value!.parentElement!);
+	const computedStyle = getComputedStyle(window.document.documentElement);
+	const parentBg = getBgColor(rootEl.value?.parentElement) ?? 'transparent';
 	const myBg = computedStyle.getPropertyValue('--MI_THEME-panel');
 	bgSame.value = parentBg === myBg;
 });
@@ -175,7 +175,7 @@ onMounted(() => {
 }
 
 .headerLower {
-	color: var(--MI_THEME-fgTransparentWeak);
+	color: color(from var(--MI_THEME-fg) srgb r g b / 0.75);
 	font-size: .85em;
 	padding-left: 4px;
 }
@@ -209,13 +209,13 @@ onMounted(() => {
 }
 
 .headerTextSub {
-	color: var(--MI_THEME-fgTransparentWeak);
+	color: color(from var(--MI_THEME-fg) srgb r g b / 0.75);
 	font-size: .85em;
 }
 
 .headerRight {
 	margin-left: auto;
-	color: var(--MI_THEME-fgTransparentWeak);
+	color: color(from var(--MI_THEME-fg) srgb r g b / 0.75);
 	white-space: nowrap;
 }
 
@@ -239,7 +239,7 @@ onMounted(() => {
 	bottom: var(--MI-stickyBottom, 0px);
 	left: 0;
 	padding: 12px;
-	background: var(--MI_THEME-acrylicBg);
+	background: color(from var(--MI_THEME-bg) srgb r g b / 0.5);
 	-webkit-backdrop-filter: var(--MI-blur, blur(15px));
 	backdrop-filter: var(--MI-blur, blur(15px));
 	background-size: auto auto;
