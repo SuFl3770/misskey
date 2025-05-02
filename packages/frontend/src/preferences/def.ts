@@ -346,19 +346,19 @@ export const PREF_DEF = {
 		default: false,
 	},
 	'sound.on.note': {
-		default: { type: 'syuilo/n-aec', volume: 1 } as SoundStore,
+		default: { type: null, volume: 1 } as SoundStore,
 	},
 	'sound.on.noteMy': {
-		default: { type: 'syuilo/n-cea-4va', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-cea-8vb', volume: 1 } as SoundStore,
 	},
 	'sound.on.notification': {
-		default: { type: 'syuilo/n-ea', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-ea-8vb', volume: 1 } as SoundStore,
 	},
 	'sound.on.reaction': {
-		default: { type: 'syuilo/bubble2', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/poi2', volume: 1 } as SoundStore,
 	},
 	'sound.on.chatMessage': {
-		default: { type: 'syuilo/waon', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/popo', volume: 1 } as SoundStore,
 	},
 
 	'deck.alwaysShowMainColumn': {
